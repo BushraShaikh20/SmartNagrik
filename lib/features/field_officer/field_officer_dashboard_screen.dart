@@ -7,8 +7,8 @@ import '../../core/services/firestore_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/date_utils.dart';
-import '../../core/widgets/app_avatar.dart';
 import '../../core/widgets/app_bottom_navigation.dart';
+import '../../core/widgets/greeting_header.dart';
 
 class FieldOfficerDashboardScreen extends StatefulWidget {
   const FieldOfficerDashboardScreen({super.key});
@@ -56,38 +56,9 @@ class _FieldOfficerDashboardScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Profile Bar
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pushNamed(
-                            context, RouteConstants.profile),
-                        child: AppAvatar(
-                            name: user?.fullName ?? 'Rajesh Patil', radius: 24),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Hello, ${user?.fullName ?? 'Officer'} 👋',
-                              style: AppTextStyles.titleLarge),
-                          Text('Roads & Infrastructure',
-                              style: AppTextStyles.caption
-                                  .copyWith(color: AppColors.purple)),
-                        ],
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.notifications_none_rounded,
-                        size: 26, color: AppColors.textPrimary),
-                    onPressed: () => Navigator.pushNamed(
-                        context, RouteConstants.notifications),
-                  ),
-                ],
+              GreetingHeader(
+                user: user,
+                accentColor: AppColors.purple,
               ),
               const SizedBox(height: 24),
 

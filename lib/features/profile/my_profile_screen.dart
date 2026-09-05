@@ -60,6 +60,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             fullName: _nameController.text.trim(),
             email: _emailController.text.trim(),
             phone: _phoneController.text.trim(),
+            photoUrl: _selectedImagePath ?? user?.photoUrl,
           );
       if (mounted) {
         SnackbarUtils.showSuccess(context, 'Profile details saved successfully!');

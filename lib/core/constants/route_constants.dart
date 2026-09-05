@@ -11,7 +11,9 @@
   static const String resetPassword = '/auth/reset-password';
   static const String resetSuccess = '/auth/reset-success';
   static const String authorityLogin = '/auth/authority-login';
+  static const String authorityRegister = '/auth/authority-register';
   static const String fieldOfficerLogin = '/auth/officer-login';
+  static const String fieldOfficerRegister = '/auth/officer-register';
 
   // Citizen
   static const String citizenDashboard = '/citizen/dashboard';

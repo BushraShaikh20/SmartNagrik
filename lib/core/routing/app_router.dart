@@ -7,6 +7,7 @@ import '../../features/authentication/field_officer_login_screen.dart';
 import '../../features/authentication/forgot_password_screen.dart';
 import '../../features/authentication/password_reset_success_screen.dart';
 import '../../features/authentication/reset_password_screen.dart';
+import '../../features/authentication/role_register_screen.dart';
 import '../../features/authentication/role_selection_screen.dart';
 import '../../features/authentication/verify_otp_screen.dart';
 import '../../features/authority/all_reports_admin_screen.dart';
@@ -45,8 +46,10 @@ import '../../features/reports/report_problem_screen.dart';
 import '../../features/reports/report_timeline_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/splash/splash_screen.dart';
+import '../../core/enums/user_role.dart';
 import '../../models/emergency_model.dart';
 import '../../models/location_model.dart';
+import '../../models/otp_args.dart';
 import '../../models/report_model.dart';
 import '../../models/task_model.dart';
 import '../constants/route_constants.dart';
@@ -69,16 +72,31 @@ class AppRouter {
       case RouteConstants.forgotPassword:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
       case RouteConstants.verifyOtp:
-        final destination = settings.arguments as String? ?? '+91 98765 43210';
-        return MaterialPageRoute(builder: (_) => VerifyOtpScreen(destination: destination));
+        final args = settings.arguments;
+        final otpArgs = args is OtpArgs
+            ? args
+            : OtpArgs(
+                destination: args as String? ?? '',
+                role: UserRole.citizen,
+              );
+        return MaterialPageRoute(
+            builder: (_) => VerifyOtpScreen(args: otpArgs));
       case RouteConstants.resetPassword:
         return MaterialPageRoute(builder: (_) => const ResetPasswordScreen());
       case RouteConstants.resetSuccess:
         return MaterialPageRoute(builder: (_) => const PasswordResetSuccessScreen());
       case RouteConstants.authorityLogin:
         return MaterialPageRoute(builder: (_) => const AuthorityLoginScreen());
+      case RouteConstants.authorityRegister:
+        return MaterialPageRoute(
+            builder: (_) =>
+                const RoleRegisterScreen(role: UserRole.authority));
       case RouteConstants.fieldOfficerLogin:
         return MaterialPageRoute(builder: (_) => const FieldOfficerLoginScreen());
+      case RouteConstants.fieldOfficerRegister:
+        return MaterialPageRoute(
+            builder: (_) =>
+                const RoleRegisterScreen(role: UserRole.fieldOfficer));
 
       // Citizen
       case RouteConstants.citizenDashboard:

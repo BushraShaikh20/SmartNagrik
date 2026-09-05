@@ -31,17 +31,17 @@ class AuthorityModel extends UserModel {
   factory AuthorityModel.fromMap(Map<String, dynamic> map) {
     return AuthorityModel(
       id: map['id'] as String? ?? '',
-      fullName: map['fullName'] as String? ?? 'Admin Officer',
-      email: map['email'] as String? ?? 'admin@smartnagrik.gov.in',
-      phone: map['phone'] as String? ?? '+91 98000 11122',
+      fullName: map['fullName'] as String? ?? '',
+      email: map['email'] as String? ?? '',
+      phone: map['phone'] as String? ?? '',
       photoUrl: map['photoUrl'] as String?,
       createdAt: map['createdAt'] != null
           ? DateTime.tryParse(map['createdAt'].toString()) ?? DateTime.now()
           : DateTime.now(),
       isActive: map['isActive'] as bool? ?? true,
-      departmentId: map['departmentId'] as String? ?? 'MUNICIPAL_CORP',
-      designation: map['designation'] as String? ?? 'Municipal Commissioner',
-      jurisdiction: map['jurisdiction'] as String? ?? 'Nagpur Municipal Area',
+      departmentId: map['departmentId'] as String? ?? '',
+      designation: map['designation'] as String? ?? '',
+      jurisdiction: map['jurisdiction'] as String? ?? '',
     );
   }
 }

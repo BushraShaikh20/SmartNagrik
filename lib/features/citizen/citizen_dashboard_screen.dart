@@ -6,8 +6,8 @@ import '../../core/services/auth_service.dart';
 import '../../core/services/firestore_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../core/widgets/app_avatar.dart';
 import '../../core/widgets/app_bottom_navigation.dart';
+import '../../core/widgets/greeting_header.dart';
 import '../../core/widgets/status_badge.dart';
 
 class CitizenDashboardScreen extends StatefulWidget {
@@ -41,7 +41,7 @@ class _CitizenDashboardScreenState extends State<CitizenDashboardScreen> {
     final user = auth.currentUser;
 
     final myReports = firestore.reports
-        .where((r) => r.citizenId == (user?.id ?? 'usr_rohan_101'))
+        .where((r) => user != null && r.citizenId == user.id)
         .toList();
     final totalCount = myReports.length;
     final inProgressCount = myReports
@@ -70,45 +70,9 @@ class _CitizenDashboardScreenState extends State<CitizenDashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Top Profile & Notifications Bar
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pushNamed(
-                            context, RouteConstants.profile),
-                        child: AppAvatar(
-                            name: user?.fullName ?? 'Rohan Sharma', radius: 24),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Hello, ${user?.fullName.split(' ').first ?? 'Rohan'} 👋',
-                            style: AppTextStyles.titleLarge,
-                          ),
-                          Text(
-                            'Citizen Reporter',
-                            style: AppTextStyles.caption
-                                .copyWith(color: AppColors.primaryDark),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.notifications_none_rounded,
-                            size: 26, color: AppColors.textPrimary),
-                        onPressed: () => Navigator.pushNamed(
-                            context, RouteConstants.notifications),
-                      ),
-                    ],
-                  ),
-                ],
+              GreetingHeader(
+                user: user,
+                accentColor: AppColors.primaryDark,
               ),
               const SizedBox(height: 24),
 

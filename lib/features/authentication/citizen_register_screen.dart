@@ -46,17 +46,23 @@ class _CitizenRegisterScreenState extends State<CitizenRegisterScreen> {
 
     if (_formKey.currentState?.validate() ?? false) {
       final auth = context.read<AuthService>();
-      await auth.registerCitizen(
+      final success = await auth.registerCitizen(
         fullName: _nameController.text.trim(),
         email: _emailController.text.trim(),
         phone: _phoneController.text.trim(),
         password: _passwordController.text,
       );
-      if (mounted) {
-        SnackbarUtils.showSuccess(context, 'Account created successfully!');
-        Navigator.pushNamedAndRemoveUntil(
-            context, RouteConstants.citizenDashboard, (r) => false);
+      if (!mounted) return;
+      if (!success) {
+        SnackbarUtils.showError(
+          context,
+          auth.errorMessage ?? 'Could not create account.',
+        );
+        return;
       }
+      SnackbarUtils.showSuccess(context, 'Account created successfully!');
+      Navigator.pushNamedAndRemoveUntil(
+          context, RouteConstants.citizenDashboard, (r) => false);
     }
   }
 

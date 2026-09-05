@@ -18,9 +18,9 @@ class FieldOfficerModel extends UserModel {
     super.isActive = true,
     required this.departmentId,
     required this.departmentName,
-    this.activeTasks = 3,
-    this.completedTasks = 24,
-    this.rating = 4.8,
+    this.activeTasks = 0,
+    this.completedTasks = 0,
+    this.rating = 0,
   }) : super(role: UserRole.fieldOfficer);
 
   @override
@@ -37,19 +37,19 @@ class FieldOfficerModel extends UserModel {
   factory FieldOfficerModel.fromMap(Map<String, dynamic> map) {
     return FieldOfficerModel(
       id: map['id'] as String? ?? '',
-      fullName: map['fullName'] as String? ?? 'Rajesh Patil',
-      email: map['email'] as String? ?? 'rajesh.patil@smartnagrik.gov.in',
-      phone: map['phone'] as String? ?? '+91 98222 33445',
+      fullName: map['fullName'] as String? ?? '',
+      email: map['email'] as String? ?? '',
+      phone: map['phone'] as String? ?? '',
       photoUrl: map['photoUrl'] as String?,
       createdAt: map['createdAt'] != null
           ? DateTime.tryParse(map['createdAt'].toString()) ?? DateTime.now()
           : DateTime.now(),
       isActive: map['isActive'] as bool? ?? true,
-      departmentId: map['departmentId'] as String? ?? 'ROAD_MAINTENANCE',
-      departmentName: map['departmentName'] as String? ?? 'Roads & Infrastructure',
-      activeTasks: (map['activeTasks'] as num?)?.toInt() ?? 3,
-      completedTasks: (map['completedTasks'] as num?)?.toInt() ?? 24,
-      rating: (map['rating'] as num?)?.toDouble() ?? 4.8,
+      departmentId: map['departmentId'] as String? ?? '',
+      departmentName: map['departmentName'] as String? ?? '',
+      activeTasks: (map['activeTasks'] as num?)?.toInt() ?? 0,
+      completedTasks: (map['completedTasks'] as num?)?.toInt() ?? 0,
+      rating: (map['rating'] as num?)?.toDouble() ?? 0,
     );
   }
 }

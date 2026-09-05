@@ -15,10 +15,10 @@ class CitizenModel extends UserModel {
     super.photoUrl,
     required super.createdAt,
     super.isActive = true,
-    this.impactPoints = 120,
-    this.reportsSubmitted = 3,
-    this.reportsResolved = 2,
-    this.badges = const ['Eco Warrior', 'Active Citizen', 'City Watch'],
+    this.impactPoints = 0,
+    this.reportsSubmitted = 0,
+    this.reportsResolved = 0,
+    this.badges = const [],
   }) : super(role: UserRole.citizen);
 
   @override
@@ -34,19 +34,21 @@ class CitizenModel extends UserModel {
   factory CitizenModel.fromMap(Map<String, dynamic> map) {
     return CitizenModel(
       id: map['id'] as String? ?? '',
-      fullName: map['fullName'] as String? ?? 'Rohan Sharma',
-      email: map['email'] as String? ?? 'rohan.sharma@example.com',
-      phone: map['phone'] as String? ?? '+91 98765 43210',
+      fullName: map['fullName'] as String? ?? '',
+      email: map['email'] as String? ?? '',
+      phone: map['phone'] as String? ?? '',
       photoUrl: map['photoUrl'] as String?,
       createdAt: map['createdAt'] != null
           ? DateTime.tryParse(map['createdAt'].toString()) ?? DateTime.now()
           : DateTime.now(),
       isActive: map['isActive'] as bool? ?? true,
-      impactPoints: (map['impactPoints'] as num?)?.toInt() ?? 120,
-      reportsSubmitted: (map['reportsSubmitted'] as num?)?.toInt() ?? 3,
-      reportsResolved: (map['reportsResolved'] as num?)?.toInt() ?? 2,
-      badges: (map['badges'] as List<dynamic>?)?.map((e) => e.toString()).toList() ??
-          ['Eco Warrior', 'Active Citizen', 'City Watch'],
+      impactPoints: (map['impactPoints'] as num?)?.toInt() ?? 0,
+      reportsSubmitted: (map['reportsSubmitted'] as num?)?.toInt() ?? 0,
+      reportsResolved: (map['reportsResolved'] as num?)?.toInt() ?? 0,
+      badges: (map['badges'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
     );
   }
 }

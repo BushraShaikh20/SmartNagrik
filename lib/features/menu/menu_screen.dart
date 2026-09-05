@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/constants/route_constants.dart';
-import '../../core/enums/user_role.dart';
 import '../../core/services/auth_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/user_display.dart';
 import '../../core/widgets/app_app_bar.dart';
 import '../../core/widgets/app_avatar.dart';
 
@@ -34,13 +34,17 @@ class MenuScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    AppAvatar(name: user?.fullName ?? 'User', radius: 26),
+                    AppAvatar(
+                      name: user.displayName,
+                      url: user?.photoUrl,
+                      radius: 26,
+                    ),
                     const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(user?.fullName ?? 'User', style: AppTextStyles.titleMedium),
+                          Text(user.displayName, style: AppTextStyles.titleMedium),
                           const SizedBox(height: 2),
                           Text(user?.email ?? '', style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
                         ],
@@ -101,33 +105,39 @@ class MenuScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               _MenuGroup(
-                title: 'Role Switcher (Demo)',
+                title: 'Switch Section',
                 items: [
                   _MenuItem(
-                    title: 'Switch to Citizen Dashboard',
+                    title: 'Citizen Login',
                     icon: Icons.person_rounded,
                     color: AppColors.primary,
-                    onTap: () {
-                      auth.switchRole(UserRole.citizen);
-                      Navigator.pushNamedAndRemoveUntil(context, RouteConstants.citizenDashboard, (r) => false);
+                    onTap: () async {
+                      await auth.beginRoleSwitch();
+                      if (!context.mounted) return;
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RouteConstants.citizenLogin, (r) => false);
                     },
                   ),
                   _MenuItem(
-                    title: 'Switch to Municipal Authority',
+                    title: 'Municipal Authority Login',
                     icon: Icons.admin_panel_settings_rounded,
                     color: AppColors.secondary,
-                    onTap: () {
-                      auth.switchRole(UserRole.authority);
-                      Navigator.pushNamedAndRemoveUntil(context, RouteConstants.authorityDashboard, (r) => false);
+                    onTap: () async {
+                      await auth.beginRoleSwitch();
+                      if (!context.mounted) return;
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RouteConstants.authorityLogin, (r) => false);
                     },
                   ),
                   _MenuItem(
-                    title: 'Switch to Field Officer',
+                    title: 'Field Officer Login',
                     icon: Icons.engineering_rounded,
                     color: AppColors.purple,
-                    onTap: () {
-                      auth.switchRole(UserRole.fieldOfficer);
-                      Navigator.pushNamedAndRemoveUntil(context, RouteConstants.fieldOfficerDashboard, (r) => false);
+                    onTap: () async {
+                      await auth.beginRoleSwitch();
+                      if (!context.mounted) return;
+                      Navigator.pushNamedAndRemoveUntil(context,
+                          RouteConstants.fieldOfficerLogin, (r) => false);
                     },
                   ),
                 ],

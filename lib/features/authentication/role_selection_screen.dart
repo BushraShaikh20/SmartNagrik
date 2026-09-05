@@ -12,101 +12,127 @@ class RoleSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
-              Center(
-                child: Container(
-                  height: 64,
-                  width: 64,
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryBackground,
-                    shape: BoxShape.circle,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF042F2E),
+              Color(0xFF0F766E),
+              Color(0xFFECFDF5),
+            ],
+            stops: [0.0, 0.38, 1.0],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 12),
+                Center(
+                  child: Container(
+                    height: 72,
+                    width: 72,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.35),
+                          blurRadius: 24,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(Icons.shield_rounded,
+                        color: AppColors.primary, size: 38),
                   ),
-                  child: const Icon(Icons.shield_rounded,
-                      color: AppColors.primary, size: 36),
                 ),
-              ),
-              const SizedBox(height: 24),
-              Center(
-                child: Text('Choose Your Role',
-                    style: AppTextStyles.displayMedium),
-              ),
-              const SizedBox(height: 8),
-              Center(
-                child: Text(
-                  'Select how you want to use Smart Nagrik',
-                  style: AppTextStyles.bodyMedium,
-                ),
-              ),
-              const SizedBox(height: 36),
-
-              // Citizen Card
-              _RoleCard(
-                title: 'Citizen',
-                subtitle:
-                    'Report civic issues, track real-time resolution and trigger emergency SOS.',
-                icon: Icons.person_rounded,
-                iconColor: AppColors.primary,
-                onTap: () {
-                  Navigator.pushNamed(context, RouteConstants.citizenLogin);
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Authorization Card
-              _RoleCard(
-                title: 'Authorization',
-                subtitle:
-                    'Municipal admin login: Review, verify, assign tasks and monitor city analytics.',
-                icon: Icons.admin_panel_settings_rounded,
-                iconColor: AppColors.secondary,
-                onTap: () {
-                  Navigator.pushNamed(context, RouteConstants.authorityLogin);
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Field Officer Card
-              _RoleCard(
-                title: 'Field Officer',
-                subtitle:
-                    'On-ground officer login: Resolve assigned tasks, upload work progress & photos.',
-                icon: Icons.engineering_rounded,
-                iconColor: AppColors.purple,
-                onTap: () {
-                  Navigator.pushNamed(
-                      context, RouteConstants.fieldOfficerLogin);
-                },
-              ),
-
-              const Spacer(),
-
-              // Continue as Guest
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    context.read<AuthService>().switchRole(UserRole.guest);
-                    Navigator.pushReplacementNamed(
-                        context, RouteConstants.citizenDashboard);
-                  },
-                  child: const Text(
-                    'Continue as Guest',
-                    style: TextStyle(
-                      color: AppColors.primaryDark,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    'Smart Nagrik',
+                    style: AppTextStyles.displayMedium.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-            ],
+                const SizedBox(height: 6),
+                Center(
+                  child: Text(
+                    'Choose how you want to continue',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: Colors.white.withValues(alpha: 0.85),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 28),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      _RoleCard(
+                        title: 'Citizen',
+                        subtitle:
+                            'Report civic issues, track resolution and use emergency SOS.',
+                        icon: Icons.person_rounded,
+                        iconColor: AppColors.primary,
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteConstants.citizenLogin);
+                        },
+                      ),
+                      const SizedBox(height: 14),
+                      _RoleCard(
+                        title: 'Authorization',
+                        subtitle:
+                            'Review reports, assign officers and monitor city analytics.',
+                        icon: Icons.admin_panel_settings_rounded,
+                        iconColor: AppColors.secondary,
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteConstants.authorityLogin);
+                        },
+                      ),
+                      const SizedBox(height: 14),
+                      _RoleCard(
+                        title: 'Field Officer',
+                        subtitle:
+                            'Resolve assigned tasks and upload on-ground progress.',
+                        icon: Icons.engineering_rounded,
+                        iconColor: AppColors.purple,
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteConstants.fieldOfficerLogin);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () async {
+                      await context.read<AuthService>().continueAsGuest();
+                      if (!context.mounted) return;
+                      Navigator.pushReplacementNamed(
+                          context, RouteConstants.citizenDashboard);
+                    },
+                    child: const Text(
+                      'Continue as Guest',
+                      style: TextStyle(
+                        color: Color(0xFF064E3B),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
+            ),
           ),
         ),
       ),
@@ -133,14 +159,14 @@ class _RoleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1.2),
+        color: Colors.white.withValues(alpha: 0.96),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -148,17 +174,17 @@ class _RoleCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
           child: Padding(
             padding: const EdgeInsets.all(18),
             child: Row(
               children: [
                 Container(
-                  height: 52,
-                  width: 52,
+                  height: 54,
+                  width: 54,
                   decoration: BoxDecoration(
                     color: iconColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(icon, color: iconColor, size: 28),
                 ),
@@ -174,14 +200,14 @@ class _RoleCard extends StatelessWidget {
                         style: const TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
-                          height: 1.3,
+                          height: 1.35,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const Icon(Icons.arrow_forward_ios_rounded,
-                    size: 16, color: AppColors.textMuted),
+                Icon(Icons.arrow_forward_rounded,
+                    size: 20, color: iconColor),
               ],
             ),
           ),
