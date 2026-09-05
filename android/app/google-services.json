@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96192451963",
+    "project_id": "smartnagrik-7aaf2",
+    "storage_bucket": "smartnagrik-7aaf2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96192451963:android:74b906989ce944df0f99de",
+        "android_client_info": {
+          "package_name": "com.smartnagrik.smart_nagrik"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCruhUVBsrpCFz7rhai5pD-Vopt81icx_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
