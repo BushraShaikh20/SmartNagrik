@@ -56,6 +56,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   void _handleSave() async {
     if (_formKey.currentState?.validate() ?? false) {
+      final user = context.read<AuthService>().currentUser;
       await context.read<AuthService>().updateProfile(
             fullName: _nameController.text.trim(),
             email: _emailController.text.trim(),
@@ -63,7 +64,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             photoUrl: _selectedImagePath ?? user?.photoUrl,
           );
       if (mounted) {
-        SnackbarUtils.showSuccess(context, 'Profile details saved successfully!');
+        SnackbarUtils.showSuccess(
+            context, 'Profile details saved successfully!');
         Navigator.pop(context);
       }
     }
@@ -143,7 +145,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     onPressed: _pickImage,
                     icon: const Icon(Icons.add_a_photo_outlined, size: 16),
                     label: const Text('Change Profile Picture',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 13)),
                   ),
                 ),
                 const SizedBox(height: 28),

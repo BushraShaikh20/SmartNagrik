@@ -6,8 +6,7 @@ import '../../firebase_options.dart';
 class FirebaseService {
   static bool isInitialized = false;
 
-  static bool get isReady =>
-      isInitialized && Firebase.apps.isNotEmpty;
+  static bool get isReady => isInitialized && Firebase.apps.isNotEmpty;
 
   static Future<void> initialize() async {
     try {
@@ -16,11 +15,7 @@ class FirebaseService {
           options: DefaultFirebaseOptions.currentPlatform,
         );
       }
-      if (!kIsWeb && DefaultFirebaseOptions.googleWebClientId.isNotEmpty) {
-        await GoogleSignIn.instance.initialize(
-          serverClientId: DefaultFirebaseOptions.googleWebClientId,
-        );
-      } else if (!kIsWeb) {
+      if (!kIsWeb) {
         await GoogleSignIn.instance.initialize();
       }
       isInitialized = true;
